@@ -19,7 +19,48 @@ namespace Exam01_OOP
             Name = name;
 
         }
+        private static MCQQuestion CreateMCQQuestion()
+        {
+            Console.Write("Please enter question body: ");
+            string body = Console.ReadLine()!;
 
+            Console.Write("Please enter question mark: ");
+            float mark = float.Parse(Console.ReadLine()!);
+
+            Answer[] answers = new Answer[4];
+
+            for (int j = 0; j < answers.Length; j++)
+            {
+                Console.Write($"Please enter choice number {j + 1}: ");
+
+                string text = Console.ReadLine()!;
+
+                answers[j] = new Answer(j + 1, text);
+            }
+
+            Console.Write(
+                "Please enter the ID of the correct answer (1 to 4): ");
+
+            int correctAnswerId = int.Parse(Console.ReadLine()!);
+
+            while (correctAnswerId < 1 || correctAnswerId > 4)
+            {
+                Console.WriteLine(
+                    "Invalid answer ID. Please enter a number from 1 to 4:");
+
+                correctAnswerId = int.Parse(Console.ReadLine()!);
+            }
+
+            Answer correctAnswer = answers[correctAnswerId - 1];
+
+            MCQQuestion question =
+                new MCQQuestion("MCQ Question", body, mark);
+
+            question.AnswerList = answers;
+            question.CorrectAnswer = correctAnswer;
+
+            return question;
+        }
         public void CreateExam()
         {
             Console.WriteLine("Please choose exam type (PracticalExam a, FinalExam b)");
@@ -59,44 +100,65 @@ namespace Exam01_OOP
 
             for (int i = 0; i < numberOfQuestions; i++)
             {
-
-                Console.Write("Please enter question body: ");
-                string body = Console.ReadLine()!;
-
-                Console.Write("Please enter question mark: ");
-                float mark = float.Parse(Console.ReadLine()!);
-
-                Answer[] answers = new Answer[4];
-
-                for (int j = 0; j < answers.Length; j++)
+                if (examType == "a")
                 {
-                    Console.Write($"Please enter choice number {j + 1}: ");
 
-                    string text = Console.ReadLine()!;
-                    answers[j] = new Answer(j + 1, text);
+
+                    Exam.Questions[i] = CreateMCQQuestion();
                 }
-                Console.Write("Please enter the ID of the correct answer (1 to 4): ");
-
-                int correctAnswerId = int.Parse(Console.ReadLine()!);
-
-                while (correctAnswerId < 1 || correctAnswerId > 4)
+                else
                 {
-                    Console.WriteLine("Invalid answer ID. Please enter a number from 1 to 4:");
-                    correctAnswerId = int.Parse(Console.ReadLine()!);
+
+                    Console.WriteLine(
+               "Choose question type (1 for MCQ, 2 for True/False):");
+
+                    int questionType = int.Parse(Console.ReadLine()!);
+
+
+                    while (questionType != 1 && questionType != 2)
+                    {
+                        Console.WriteLine(
+                     "Invalid question type. Please choose 1 or 2:");
+
+                        questionType = int.Parse(Console.ReadLine()!);
+                    }
+
+
+                    if (questionType == 1)
+                    {
+                        // MCQ
+                        Exam.Questions[i] = CreateMCQQuestion();
+                    }
+                    else
+                    {
+                        Console.Write("Please enter question body: ");
+                        string body = Console.ReadLine()!;
+
+                        Console.Write("Please enter question mark: ");
+
+                        float mark = float.Parse(Console.ReadLine()!);
+                        TrueFalseQuestion question = new TrueFalseQuestion("True / False Question", body, mark);
+
+                        Console.Write(
+                    "Please enter the correct answer (1 for True, 2 for False): ");
+
+                        int correctAnswerId = int.Parse(Console.ReadLine()!);
+
+                        while (correctAnswerId != 1 && correctAnswerId != 2)
+                        {
+                            Console.WriteLine(
+                                "Invalid answer ID. Please enter 1 for True or 2 for False:");
+
+                            correctAnswerId = int.Parse(Console.ReadLine()!);
+                        }
+
+                        question.CorrectAnswer =
+                  question.AnswerList[correctAnswerId - 1];
+
+                        Exam.Questions[i] = question;
+
+                    }
                 }
-
-                Answer correctAnswer = answers[correctAnswerId - 1];
-
-                MCQQuestion question = new MCQQuestion("MCQ Question", body, mark);
-
-
-                question.AnswerList = answers;
-                question.CorrectAnswer = correctAnswer;
-
-                Exam.Questions[i] = question;
-
-
-
 
             }
 

@@ -28,7 +28,6 @@ namespace Exam01_OOP
             Console.Clear();
             DateTime startTime = DateTime.Now;
 
-            float totalGrade = 0;
 
 
             for (int i = 0; i < NumberOfQuestions; i++)
@@ -60,35 +59,45 @@ namespace Exam01_OOP
 
                 Console.WriteLine();
 
-                if (studentAnwser.Id == question.CorrectAnswer.Id)
-                {
-                    totalGrade += question.Mark;
-                    Console.WriteLine("Correct Answer!");
-                    Console.WriteLine($"Your Answer: {studentAnwser}");
-                    Console.WriteLine($"Correct Answer {question.CorrectAnswer}");
-                    Console.WriteLine($"Grade: {question.Mark}");
-
-                }
-                else
-                {
-                    Console.WriteLine("Wrong Answer!");
-                    Console.WriteLine($"Your Answer: {studentAnwser}");
-                    Console.WriteLine($"Correct Answer {question.CorrectAnswer}");
-                    Console.WriteLine($"Grade: 0");
-                }
-
-                Console.WriteLine("\nPress Enter to continue...");
-                Console.ReadLine();
                 Console.Clear();
-            }
-            TimeSpan time = DateTime.Now - startTime;
+                TimeSpan time = DateTime.Now - startTime;
+                Console.WriteLine("Practical Exam Results:");
+                Console.WriteLine();
+                float totalGrade = 0;
+                float maxGrade = 0;
 
-            Console.WriteLine("================================");
-            Console.WriteLine("Exam Finished!");
-            Console.WriteLine($"Total Grade: {totalGrade}");
-            Console.WriteLine($"Elapsed Time: {time.TotalSeconds:F2} seconds");
-            Console.WriteLine("Thank you for taking the exam.");
-            Console.WriteLine("================================");
+                for (int s = 0; s < NumberOfQuestions; s++)
+                {
+                    Question questionNum = Questions[s];
+                    Answer studentAnswer = StudentAnswers[s];
+
+                    maxGrade += question.Mark;
+
+                    if (studentAnswer.Id == question.CorrectAnswer.Id)
+                    {
+                        totalGrade += question.Mark;
+                    }
+
+                    Console.WriteLine(
+           $"Question {i + 1}: {question.Body}");
+
+                    Console.WriteLine(
+                        $"Your Answer => {studentAnswer.Text}");
+
+                    Console.WriteLine(
+                        $"Correct Answer => {question.CorrectAnswer.Text}");
+
+                    Console.WriteLine();
+
+                    Console.WriteLine($"Your Grade is {totalGrade} from {maxGrade}");
+                    Console.WriteLine($"Time = {time}");
+
+                    Console.WriteLine("Thank you");
+                }
+
+
+            }
+
 
 
 
